@@ -1,5 +1,5 @@
 #include <Wire.h>
-#define LCD_ADRS 0x3E
+#define LCD_ADRS 0x3E   //LCDのI2Cアドレス
 char moji[] ="welcome to yokoso japariPark";
 char moji2[] = "wait while";
 char moji3[] = "playing";
@@ -114,7 +114,7 @@ void kemono(){
   
   
 }
-int FREQCOUNT = 0;
+
 
 void writeData(byte t_data)
 {
@@ -178,12 +178,12 @@ void setup() {
   writeCommand(0x40+0x80); // 2列目へ移動
   LCD_str(moji2);
 
-
   for(int i=0;i<20;i++){        //画面を左向きに移動
     writeCommand(0b00011000);
   delay(300);
   }
   
+  int FREQCOUNT = 0;
   for(FREQCOUNT = 0;FREQCOUNT < 10000;FREQCOUNT++){   //起動音
     tone(SPEAKER,FREQCOUNT,BEATTIME);
     delayMicroseconds(100);
@@ -191,10 +191,10 @@ void setup() {
   
 }
 void loop() {
-  writeCommand(0x01);
-  delay(2);
-  writeCommand(0x02);
+  writeCommand(0x01);   //画面をクリア
+  writeCommand(0x02);   //ホーム（アドレス０）へカーソル移動
+  delay(2);             //処理待ち
   LCD_str(moji3);
-  kemono();
+  kemono();             //ようこそジャパリパークへ演奏
 } 
 
