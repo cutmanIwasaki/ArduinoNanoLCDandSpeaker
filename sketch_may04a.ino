@@ -1,7 +1,8 @@
 #include <Wire.h>
 #define LCD_ADRS 0x3E
-char moji[] ="AQM1602XA-RN-GBW";
-//SCL=A5=LCDNo2 SDA=A4=LCDNo3
+char moji[] ="welcome to yokoso japariPark";
+char moji2[] = "wait while";
+
 void writeData(byte t_data)
 {
  Wire.beginTransmission(LCD_ADRS);
@@ -13,33 +14,33 @@ delay(1);
 //コマンド書き込み
 void writeCommand(byte t_command)
 {
- Wire.beginTransmission(LCD_ADRS);
- Wire.write(0x00);
- Wire.write(t_command);
- Wire.endTransmission();
-delay(10);
+   Wire.beginTransmission(LCD_ADRS);
+   Wire.write(0x00);
+   Wire.write(t_command);
+   Wire.endTransmission();
+   delay(10);
 }
 //液晶初期化
 void init_LCD() {
-delay(100);
-writeCommand(0x38);
-delay(20);
-writeCommand(0x39);
-delay(20);
-writeCommand(0x14);
-delay(20);
-writeCommand(0x73);
-delay(20);
-writeCommand(0x52);
-delay(20);
-writeCommand(0x6C);
-delay(20);
-writeCommand(0x38);
-delay(20);
-writeCommand(0x01);
-delay(20);
-writeCommand(0x0C);
-delay(20);
+  delay(100);
+  writeCommand(0x38);
+  delay(20);
+  writeCommand(0x39);
+  delay(20);
+  writeCommand(0x14);
+  delay(20);
+  writeCommand(0x73);
+  delay(20);
+  writeCommand(0x52);
+  delay(20);
+  writeCommand(0x6C);
+  delay(20);
+  writeCommand(0x38);
+  delay(20);
+  writeCommand(0x01);
+  delay(20);
+  writeCommand(0x0C);
+  delay(20);
 }
 //LCDへ文字列送信
 void LCD_str(char *c) {
@@ -53,17 +54,17 @@ void LCD_str(char *c) {
 }
 
 void setup() {
-Wire.begin();
-init_LCD();
-}
-void loop() {
+  Wire.begin();
+  init_LCD();
+  
   LCD_str(moji);
   
   writeCommand(0x40+0x80); // 2LINE TOP
-  for(int i = 0; i < 16; i++) {
-  writeData(i+0xb1);
-  }
+  LCD_str(moji2);
+}
+void loop() {
+  writeCommand(0b00011000);
+  delay(300);
   
-  while(1){}//stop
 } 
 
